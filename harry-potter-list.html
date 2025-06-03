@@ -1,0 +1,21 @@
+<body>
+  <h1>Happy Potter List</h1>
+  <ul id="userList"></ul>
+
+  <script>
+    fetch(
+      "https://api.potterdb.com/v1/characters?page[size]=100&page[number]=2"
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const list = document.getElementById("userList");
+        data.data.forEach((user) => {
+          // if no house, do not add
+          if (!user.attributes.house) return;
+          const li = document.createElement("li");
+          li.textContent = `${user.attributes.name} - ${user.attributes.house}`;
+          list.appendChild(li);
+        });
+      });
+  </script>
+</body>

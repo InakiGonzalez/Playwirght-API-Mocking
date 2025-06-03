@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather App</title>
+  </head>
+  <body>
+    <h1>Weather Forecast</h1>
+    <input id="city" type="text" placeholder="Enter city" />
+    <button id="getWeather">Get Weather</button>
+    <div id="result"></div>
+
+    <script>
+      document
+        .getElementById("getWeather")
+        .addEventListener("click", async () => {
+          const city = document.getElementById("city").value;
+          const response = await fetch(
+            `https://api.weather.com/forecast?city=${city}`
+          );
+          const data = await response.json();
+          document.getElementById(
+            "result"
+          ).textContent = `${data.city}: ${data.temperature}, ${data.condition}`;
+        });
+    </script>
+  </body>
+</html>
