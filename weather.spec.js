@@ -35,3 +35,4 @@ test('should mock the weather API and test error handling', async ({ page }) => 
 
   await expect(page.locator('#result')).toHaveText('undefined: undefined, undefined'); // should be empty
 });
+
