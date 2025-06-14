@@ -30,30 +30,10 @@ const config: PlaywrightTestConfig = {
   },
 
   projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'],
-        ignoreHTTPSErrors: true
-       },
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'],
-        ignoreHTTPSErrors: true
-       },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'],
-        ignoreHTTPSErrors: true
-       },
-    },
-    {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'],
-        ignoreHTTPSErrors: true,
-       },
-    },
+  { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  { name: 'firefox',  use: { ...devices['Desktop Firefox'] } },
+  { name: 'Mobile Safari', use: { ...devices['iPhone 12'] , headless: false,
+     launchOptions: {args: ['--disable-gpu', '--no-sandbox'],},} },
   ],
 };
 
