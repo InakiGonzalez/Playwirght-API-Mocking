@@ -6,7 +6,12 @@ const config: PlaywrightTestConfig = {
   expect: { timeout: 5_000 },
 
   use: {
+    ignoreHTTPSErrors: true,
+
     baseURL: 'https://oraclekairo.com',
+
+    actionTimeout: 10000,
+    navigationTimeout: 30000,
 
     // Video and screenshot on failure:
     video: 'retain-on-failure',
@@ -27,19 +32,27 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'],
+        ignoreHTTPSErrors: true
+       },
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'],
+        ignoreHTTPSErrors: true
+       },
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { ...devices['Desktop Safari'],
+        ignoreHTTPSErrors: true
+       },
     },
     {
       name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
+      use: { ...devices['Pixel 5'],
+        ignoreHTTPSErrors: true,
+       },
     },
   ],
 };

@@ -36,13 +36,11 @@ test.describe('@epicFlow Epic & Task Workflows', () => {
       await page.getByRole('button', { name: 'Create Epic' }).click();
       await expect(page.getByText(title)).toBeVisible();
 
-      // delete
       page.once('dialog', d => d.accept());
-      await page
-        .getByRole('listitem', { name: new RegExp(`^${title}${desc}`) })
-        .getByRole('button')
-        .first()
-        .click();
+
+      const epicContainer = page.getByRole('listitem').filter({ hasText: title });
+      await epicContainer.getByRole('button', {name: 'Eliminar'}).click();
+
       await expect(page.getByText(title)).not.toBeVisible();
     });
   }
@@ -59,11 +57,48 @@ test.describe('@epicFlow Epic & Task Workflows', () => {
 
     // fill task form
     await page.getByRole('button', { name: 'Create Task' }).click();
+
     await page.getByRole('textbox', { name: 'Title' }).fill('Task prueba');
     await page.getByRole('textbox', { name: 'Description' }).fill('task de prueba e2e');
-    await page.getByLabel('EpicSelecciona un Epic128 -').selectOption('138');
-    await page.getByRole('button', { name: 'Create Task' }).click();
+    
+    // Epic dropdown
+    await page.getByRole('combobox', { name: 'Epic' }).selectOption('138');
+    
+    // Priority dropdown
+    await page.locator('select[name="priority"]').selectOption('High');
+
+    // Type dropdown
+    await page.locator('select[name="type"]').selectOption('Feature');
+    
+    // Fechas (después de 2026)
+    await page.locator('input[name="estimatedDeadline"]').fill('2027-01-15');
+    await page.locator('input[name="realDeadline"]').fill('2027-02-15');
+    
+    // Números
+    await page.getByRole('spinbutton', { name: 'Estimated Hours' }).fill('8');
+    await page.getByRole('spinbutton', { name: 'Real Hours' }).fill('10');
+    await page.getByRole('spinbutton', { name: 'User Points' }).fill('5');
+    
+    // Submit
+    await page.locator('button[type="submit"]').click();
+
+    // ✅ VERIFICAR QUE SE CREÓ
+    await page.getByText('All Tasks').click();
+
+    // Esperar que la tarea aparezca en la lista
     await expect(page.getByText('Task prueba')).toBeVisible();
+
+    // ✅ ABRIR FORMULARIO EDIT/DELETE
+    await page.getByRole('button', { name: 'Edit/Delete Tasks' }).click();
+    
+    // ✅ SELECCIONAR LA TASK EN EL DROPDOWN
+    await page.locator('select.select-bordered').selectOption({ label: 'Task prueba' });
+    
+    // ✅ ELIMINAR LA TASK
+    page.once('dialog', d => d.accept()); // Para confirmar eliminación
+    await page.locator('button.btn.btn-error').click(); // Botón rojo específico
+    
+    await page.getByText('All Tasks').click();
 
   });
 });
