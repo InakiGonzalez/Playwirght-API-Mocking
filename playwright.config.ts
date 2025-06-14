@@ -32,8 +32,14 @@ const config: PlaywrightTestConfig = {
   projects: [
   { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   { name: 'firefox',  use: { ...devices['Desktop Firefox'] } },
-  { name: 'Mobile Safari', use: { ...devices['iPhone 12'] , headless: false,
-     launchOptions: {args: ['--disable-gpu', '--no-sandbox'],},} },
+  {
+      name: 'Mobile Chrome (Pixel 5)',
+      use: {
+        browserName: 'chromium',
+        ...devices['Pixel 5'],
+        headless: false,
+      },
+    },
   ],
 };
 

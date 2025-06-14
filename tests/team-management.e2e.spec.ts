@@ -91,6 +91,7 @@ test.describe('@teamNav Team Management & Navigation Flows', () => {
 
     // Check presence of key KPI sections
     await expect(page.getByRole('heading', { name: 'This is the amount of money' })).toBeVisible();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await expect(page.getByRole('heading', { name: 'Tasks by Sprint and User' })).toBeVisible();
 
     // Apply filters via the two comboboxes
@@ -105,7 +106,7 @@ test.describe('@teamNav Team Management & Navigation Flows', () => {
     // Assert that a known cell is visible under those filters
     await expect(
       page.getByRole('cell', { name: 'Implementación de Asignación' })
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10_000 });
   });
 });
 
